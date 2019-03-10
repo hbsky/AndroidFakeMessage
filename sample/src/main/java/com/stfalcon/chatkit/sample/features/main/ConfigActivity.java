@@ -116,11 +116,19 @@ public class ConfigActivity extends AppCompatActivity {
                 ColorPickerDialog dialog = getColorPicker(statusSelectedColor);
                 dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
                     @Override
-                    public void onColorSelected(int color) {
-                        statusSelectedColor = color;
-                        viewStatusBarColor.setBackgroundColor(color);
+                    public void onColorSelected(final int color) {
 
-                        SharedPref.saveInt(ConfigActivity.this, SharedPref.KEY_STATUS_COLOR, color);
+                        requestPermission(new AbstractPermissionListener() {
+                            @Override
+                            public void onPermissionGranted() {
+                                super.onPermissionGranted();
+
+                                statusSelectedColor = color;
+                                viewStatusBarColor.setBackgroundColor(color);
+
+                                SharedPref.saveInt(ConfigActivity.this, SharedPref.KEY_STATUS_COLOR, color);
+                            }
+                        });
                     }
                 });
 
@@ -136,10 +144,17 @@ public class ConfigActivity extends AppCompatActivity {
                 ColorPickerDialog dialog = getColorPicker(chatSelectedColor);
                 dialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
                     @Override
-                    public void onColorSelected(int color) {
-                        chatSelectedColor = color;
-                        viewChatColor.setBackgroundColor(color);
-                        SharedPref.saveInt(ConfigActivity.this, SharedPref.KEY_CHAT_COLOR, color);
+                    public void onColorSelected(final int color) {
+                        requestPermission(new AbstractPermissionListener() {
+                            @Override
+                            public void onPermissionGranted() {
+                                super.onPermissionGranted();
+
+                                chatSelectedColor = color;
+                                viewChatColor.setBackgroundColor(color);
+                                SharedPref.saveInt(ConfigActivity.this, SharedPref.KEY_CHAT_COLOR, color);
+                            }
+                        });
 
                     }
                 });
