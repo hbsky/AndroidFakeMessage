@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ColorPreference">
+        <attr name="colorpicker_dialogTitle" format="string|reference" />
+        <attr name="colorpicker_colors" format="reference" />
+        <attr name="colorpicker_columns" format="integer" />
+        <attr name="colorpicker_material" format="boolean" />
+        <attr name="colorpicker_backwardsOrder" format="boolean" />
+        <attr name="colorpicker_strokeWidth" format="integer" />
+        <attr name="colorpicker_strokeColor" format="color" />
+    </declare-styleable>
+</resources>

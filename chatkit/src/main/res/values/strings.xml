@@ -1,0 +1,17 @@
+<resources>
+    
+    <string name="os">OS</string>
+    <string name="statusbar">StatusBar</string>
+    <string name="carrier">Carrier</string>
+    <string name="time">Time</string>
+    <string name="battery">Battery</string>
+    <string name="statusbar_color">Color</string>
+    <string name="chat">Chat</string>
+    <string name="chat_name">Chat name</string>
+    <string name="chat_color">Color</string>
+    <string name="chat_number_of_member">Member</string>
+    <string name="chat_user">User</string>
+    <string name="chat_user_avatar">User avatar</string>
+    <string name="chat_datetime">Datetime</string>
+
+</resources>
