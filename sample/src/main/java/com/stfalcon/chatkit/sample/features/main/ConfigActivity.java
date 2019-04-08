@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.nvp.easypermissions.AbstractPermissionListener;
 import com.nvp.easypermissions.NvpPermission;
 import com.stfalcon.chatkit.sample.R;
+import com.stfalcon.chatkit.sample.features.demo.def.DefaultMessagesActivity;
 import com.stfalcon.chatkit.sample.utils.SharedPref;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
@@ -167,7 +168,8 @@ public class ConfigActivity extends AppCompatActivity {
         btnConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.start(ConfigActivity.this);
+//                MainActivity.start(ConfigActivity.this);
+                DefaultMessagesActivity.open(ConfigActivity.this);
             }
         });
 
@@ -277,7 +279,7 @@ public class ConfigActivity extends AppCompatActivity {
                 .setIconGravity(Gravity.LEFT)
                 .setButtonOrientation(LinearLayout.HORIZONTAL)
                 .setSystemDialog(false)
-                .setVideo(true);
+                .setVideo(false);
 //                .setGalleryIcon(yourIcon)
 //                .setCameraIcon(yourIcon);
     }
