@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.nvp.easypermissions.AbstractPermissionListener;
 import com.nvp.easypermissions.NvpPermission;
 import com.stfalcon.chatkit.sample.R;
@@ -40,11 +41,13 @@ import org.xdty.preference.colorpicker.ColorPickerSwatch;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by ToanNM on 3/4/2019.
  */
-public class ConfigActivity extends AppCompatActivity {
+public class ConfigActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String FOLDER_IMAGE = Environment.getExternalStorageDirectory() + "/FakeChat/";
 
@@ -53,6 +56,7 @@ public class ConfigActivity extends AppCompatActivity {
     private TextInputEditText inputCarrier, inputBattery, inputNumberOfMember, inputChatName;
     private View viewStatusBarColor, viewChatColor;
     private LinearLayout userLayout;
+    private TextView chatTime;
 
     private int chatSelectedColor, statusSelectedColor;
     private int[] mColors;
@@ -80,6 +84,8 @@ public class ConfigActivity extends AppCompatActivity {
         inputChatName.setHint(getResources().getString(R.string.chat_name));
         inputChatName.setText(SharedPref.getString(ConfigActivity.this, SharedPref.KEY_CHAT_NAME));
         saveSharedPreWhileTextChange(inputChatName, SharedPref.KEY_CHAT_NAME);
+
+        chatTime = findViewById(R.id.chat_time);
 
         inputNumberOfMember = findViewById(R.id.input_number_of_member);
         inputNumberOfMember.setHint(getResources().getString(R.string.chat_number_of_member));
@@ -330,6 +336,30 @@ public class ConfigActivity extends AppCompatActivity {
                 SharedPref.saveString(ConfigActivity.this, key, editable.toString());
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.chat_time:
+                new SingleDateAndTimePickerDialog.Builder(this)
+                        .bottomSheet()
+                        .curved()
+                        .displayMinutes(true)
+                        .displayHours(true)
+                        .displayDays(false)
+                        .displayMonth(true)
+                        .displayYears(true)
+                        .displayDaysOfMonth(true)
+                        .listener(new SingleDateAndTimePickerDialog.Listener() {
+                            @Override
+                            public void onDateSelected(Date date) {
+                                chatTime.setText(date.toString());
+                            }
+                        })
+                        .display();
+                break;
+        }
     }
 }
 

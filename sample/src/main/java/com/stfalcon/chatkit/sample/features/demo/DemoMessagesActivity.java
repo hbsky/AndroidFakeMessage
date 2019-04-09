@@ -1,7 +1,6 @@
 package com.stfalcon.chatkit.sample.features.demo;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,12 +12,10 @@ import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import com.stfalcon.chatkit.sample.R;
-import com.stfalcon.chatkit.sample.common.data.fixtures.MessagesFixtures;
 import com.stfalcon.chatkit.sample.common.data.model.Message;
 import com.stfalcon.chatkit.sample.utils.AppUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -43,12 +40,15 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, String url, Object payload) {
                 Picasso.with(DemoMessagesActivity.this).load(url).into(imageView);
             }
         };
+
     }
 
     @Override
@@ -74,6 +74,9 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
             case R.id.action_copy:
                 messagesAdapter.copySelectedMessagesText(this, getMessageStringFormatter(), true);
                 AppUtils.showToast(this, R.string.copied_message, true);
+                break;
+            case android.R.id.home:
+                finish();
                 break;
         }
         return true;
@@ -128,5 +131,11 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
                         message.getUser().getName(), text, createdAt);
             }
         };
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
