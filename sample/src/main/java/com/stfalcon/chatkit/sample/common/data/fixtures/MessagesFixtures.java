@@ -1,7 +1,7 @@
 package com.stfalcon.chatkit.sample.common.data.fixtures;
 
-import com.stfalcon.chatkit.sample.common.data.model.Message;
-import com.stfalcon.chatkit.sample.common.data.model.User;
+import com.stfalcon.chatkit.commons.models.Message;
+import com.stfalcon.chatkit.commons.models.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,6 +33,10 @@ public final class MessagesFixtures extends FixturesData {
 
     public static Message getTextMessage(String text) {
         return new Message(getRandomId(), getUser(), text);
+    }
+
+    public static Message getTextMessage(String text, Date date) {
+        return new Message(getRandomId(), getUser(), text, date);
     }
 
     public static ArrayList<Message> getMessages(Date startDate) {

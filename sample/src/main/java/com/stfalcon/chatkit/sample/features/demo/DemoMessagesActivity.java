@@ -1,5 +1,6 @@
 package com.stfalcon.chatkit.sample.features.demo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,12 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
+import com.stfalcon.chatkit.commons.models.Message;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import com.stfalcon.chatkit.sample.R;
-import com.stfalcon.chatkit.sample.common.data.model.Message;
 import com.stfalcon.chatkit.sample.utils.AppUtils;
+import com.stfalcon.chatkit.sample.utils.SharedPref;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,6 +38,8 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
     private Menu menu;
     private int selectionCount;
     private Date lastLoadedDate;
+
+    public void showDateTimePicker(){}
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +73,9 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_change_datetime:
+                showDateTimePicker();
+                break;
             case R.id.action_delete:
                 messagesAdapter.deleteSelectedMessages();
                 break;
@@ -102,6 +110,7 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
     @Override
     public void onSelectionChanged(int count) {
         this.selectionCount = count;
+        menu.findItem(R.id.action_change_datetime).setVisible(count > 0);
         menu.findItem(R.id.action_delete).setVisible(count > 0);
         menu.findItem(R.id.action_copy).setVisible(count > 0);
     }

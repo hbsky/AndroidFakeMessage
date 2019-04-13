@@ -1,21 +1,28 @@
 package com.stfalcon.chatkit.sample.features.demo.def;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
+import com.stfalcon.chatkit.commons.models.Message;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import com.stfalcon.chatkit.sample.R;
 import com.stfalcon.chatkit.sample.common.data.fixtures.MessagesFixtures;
-import com.stfalcon.chatkit.sample.common.data.model.Message;
 import com.stfalcon.chatkit.sample.features.demo.DemoMessagesActivity;
+import com.stfalcon.chatkit.sample.features.main.ConfigActivity;
 import com.stfalcon.chatkit.sample.utils.SharedPref;
+
+import java.util.Date;
 
 public class DefaultMessagesActivity extends DemoMessagesActivity
         implements MessageInput.InputListener,
@@ -28,6 +35,8 @@ public class DefaultMessagesActivity extends DemoMessagesActivity
     }
 
     private MessagesList messagesList;
+
+    private Message lastOnClickMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +66,10 @@ public class DefaultMessagesActivity extends DemoMessagesActivity
     @Override
     public boolean onSubmit(CharSequence input) {
         super.messagesAdapter.addToStart(
-                MessagesFixtures.getTextMessage(input.toString()), true);
+                MessagesFixtures.getTextMessage(input.toString(),
+                        new Date(SharedPref.getLong(DefaultMessagesActivity.this, SharedPref.KEY_DEFAULT_CHAT_TIME,
+                                new Date().getTime()))), true
+        );
         Log.e("Debug", "onSubmit -> " + input.toString());
         return true;
     }
@@ -97,7 +109,13 @@ public class DefaultMessagesActivity extends DemoMessagesActivity
                 messagesAdapter.notifyDataSetChanged();
             }
         });
-        messagesAdapter.setOnMessageLongClickListener(this);
+        messagesAdapter.customOnMessageLongClickListener = new MessagesListAdapter.CustomOnMessageLongClickListener() {
+            @Override
+            public void onMessageLongClickListener(Message message) {
+                lastOnClickMessage = message;
+            }
+        };
+//        messagesAdapter.setOnMessageLongClickListener(this);
         this.messagesList.setAdapter(super.messagesAdapter);
     }
 
@@ -115,5 +133,65 @@ public class DefaultMessagesActivity extends DemoMessagesActivity
     @Override
     public void onMessageLongClick(Message message) {
         Toast.makeText(this, "TEST", Toast.LENGTH_SHORT).show();
+    }
+
+    public void showDateTimePicker() {
+        new SingleDateAndTimePickerDialog.Builder(this)
+//                .bottomSheet()
+                .curved()
+                .mainColor(SharedPref.getInt(this, SharedPref.KEY_CHAT_COLOR))
+                .title(getResources().getString(R.string.chat_datetime))
+                .titleTextColor(Color.WHITE)
+                .displayMinutes(true)
+                .displayHours(true)
+                .displayDays(false)
+                .displayMonth(true)
+                .displayYears(true)
+                .displayDaysOfMonth(true)
+                .listener(new SingleDateAndTimePickerDialog.Listener() {
+                    @Override
+                    public void onDateSelected(Date date) {
+                        setCreateAt(date);
+                    }
+                })
+                .display();
+    }
+
+    private void setCreateAt(Date date) {
+        for (int i = 0; i < messagesAdapter.items.size(); i++) {
+            MessagesListAdapter.Wrapper item = messagesAdapter.items.get(i);
+
+            if (item.item instanceof Message) {
+                Message mess = (Message) item.item;
+
+                if (mess.equals(lastOnClickMessage)) {
+                    int selectedPos = i;
+                    Log.e("ToanNM", "selectedPos -> " + selectedPos);
+                    selectedPos += 1;
+                    if(selectedPos < 0)
+                        selectedPos = 0;
+
+                    messagesAdapter.addDateHeader(selectedPos, date);
+                    mess.setCreatedAt(date);
+                    Log.e("ToanNM", "setCreatedDate -> " + selectedPos +"___" + date);
+
+                    SharedPref.saveLong(DefaultMessagesActivity.this, SharedPref.KEY_DEFAULT_CHAT_TIME,
+                            date.getTime());
+                    break;
+
+                }
+            } else if (item.item instanceof Date) {
+                Date mDate = (Date) item.item;
+
+                Log.e("ToanNM", mDate + "______" + lastOnClickMessage.getCreatedAt());
+
+//                if (mDate.getTime() == lastOnClickMessage.getCreatedAt().getTime()) {
+                    mDate.setTime(date.getTime());
+                    messagesAdapter.items.set(i, item);
+                    Log.e("ToanNM", "set Header -> " + date);
+//                }
+            }
+        }
+        messagesAdapter.notifyDataSetChanged();
     }
 }

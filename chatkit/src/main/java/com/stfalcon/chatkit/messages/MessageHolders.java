@@ -18,6 +18,7 @@ import com.stfalcon.chatkit.R;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.ViewHolder;
 import com.stfalcon.chatkit.commons.models.IMessage;
+import com.stfalcon.chatkit.commons.models.Message;
 import com.stfalcon.chatkit.commons.models.MessageContentType;
 import com.stfalcon.chatkit.utils.DateFormatter;
 import com.stfalcon.chatkit.utils.RoundedImageView;
@@ -567,13 +568,21 @@ public class MessageHolders {
                         final ImageLoader imageLoader,
                         final View.OnClickListener onMessageClickListener,
                         final View.OnLongClickListener onMessageLongClickListener,
+                        final MessagesListAdapter.CustomOnMessageLongClickListener customOnMessageLongClickListener,
                         final DateFormatter.Formatter dateHeadersFormatter,
                         final SparseArray<MessagesListAdapter.OnMessageViewClickListener> clickListenersArray) {
 
         if (item instanceof IMessage) {
             ((MessageHolders.BaseMessageViewHolder) holder).isSelected = isSelected;
             ((MessageHolders.BaseMessageViewHolder) holder).imageLoader = imageLoader;
-            holder.itemView.setOnLongClickListener(onMessageLongClickListener);
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onMessageLongClickListener.onLongClick(view);
+                    customOnMessageLongClickListener.onMessageLongClickListener((Message) item);
+                    return true;
+                }
+            });
             holder.itemView.setOnClickListener(onMessageClickListener);
 
             for (int i = 0; i < clickListenersArray.size(); i++) {

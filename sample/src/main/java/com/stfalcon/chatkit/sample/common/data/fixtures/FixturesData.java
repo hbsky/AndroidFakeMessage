@@ -70,8 +70,13 @@ abstract class FixturesData {
 
     static final ArrayList<String> images = new ArrayList<String>() {
         {
-            add("https://habrastorage.org/getpro/habr/post_images/e4b/067/b17/e4b067b17a3e414083f7420351db272b.jpg");
-            add("https://cdn.pixabay.com/photo/2017/12/25/17/48/waters-3038803_1280.jpg");
+            add("http://sohanews.sohacdn.com/thumb_w/660/2017/photo-4-1509012560460-0-0-409-660-crop-1509012656515.jpg");
+            add("http://sohanews.sohacdn.com/2017/photo-1-1509012531028.jpg");
+            add("http://sohanews.sohacdn.com/2017/photo-1-1509012560449.jpg");
+            add("http://sohanews.sohacdn.com/2017/photo-2-1509012560452.gif");
+            add("http://sohanews.sohacdn.com/2017/photo-3-1509012560456.jpg");
+            add("http://sohanews.sohacdn.com/2017/photo-6-1509012560471.jpg");
+            add("http://sohanews.sohacdn.com/2017/photo-8-1509012560479.jpg");
         }
     };
 

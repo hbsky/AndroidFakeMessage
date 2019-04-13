@@ -14,6 +14,8 @@ public class SharedPref {
     public static final String KEY_STATUS_COLOR = "KEY_STATUS_COLOR";
     public static final String KEY_CHAT_COLOR = "KEY_CHAT_COLOR";
     public static final String KEY_CHAT_NAME = "KEY_CHAT_NAME";
+    public static final String KEY_CHAT_TIME = "KEY_CHAT_TIME";
+    public static final String KEY_DEFAULT_CHAT_TIME = "KEY_DEFAULT_CHAT_TIME";
     public static final String KEY_CHAT_NUMBER_OF_MEMBERS = "KEY_CHAT_NUMBER_OF_MEMBERS";
 
     private static final String MY_SHARED_PREFERENCE = "com.stfalcon.chatkit.test.MySharedPreference";
@@ -24,6 +26,15 @@ public class SharedPref {
 
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt(key, value);
+        editor.commit();
+    }
+
+    public static void saveLong(Context context, String key, long value) {
+        SharedPreferences pref = context.getSharedPreferences(
+                MY_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putLong(key, value);
         editor.commit();
     }
 
@@ -38,6 +49,23 @@ public class SharedPref {
                     MY_SHARED_PREFERENCE, Context.MODE_PRIVATE);
 
             ret = pref.getInt(key, defaultValue);
+        } catch (Exception e) {
+
+        }
+        return ret;
+    }
+
+    public static long getLong(Context context, String key) {
+        return getLong(context, key, 0);
+    }
+
+    public static long getLong(Context context, String key, long defaultValue) {
+        long ret = 0;
+        try {
+            SharedPreferences pref = context.getSharedPreferences(
+                    MY_SHARED_PREFERENCE, Context.MODE_PRIVATE);
+
+            ret = pref.getLong(key, defaultValue);
         } catch (Exception e) {
 
         }

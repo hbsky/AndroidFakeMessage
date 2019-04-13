@@ -35,6 +35,7 @@ import com.stfalcon.chatkit.R;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.ViewHolder;
 import com.stfalcon.chatkit.commons.models.IMessage;
+import com.stfalcon.chatkit.commons.models.Message;
 import com.stfalcon.chatkit.utils.DateFormatter;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
     protected static boolean isSelectionModeEnabled;
 
-    protected List<Wrapper> items;
+    public List<Wrapper> items;
     private MessageHolders holders;
     private String senderId;
 
@@ -99,7 +100,6 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e("ToanNM", "onCreateViewHolder -> viewType -> " + viewType);
         return holders.getHolder(parent, viewType, messagesListStyle);
     }
 
@@ -110,8 +110,14 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
         holders.bind(holder, wrapper.item, wrapper.isSelected, imageLoader,
                 getMessageClickListener(wrapper),
                 getMessageLongClickListener(wrapper),
+                customOnMessageLongClickListener,
                 dateHeadersFormatter,
                 viewClickListenersArray);
+    }
+
+    public CustomOnMessageLongClickListener customOnMessageLongClickListener;
+    public interface CustomOnMessageLongClickListener{
+        void onMessageLongClickListener(Message message);
     }
 
     @Override
@@ -647,10 +653,13 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
             @Override
             public boolean onLongClick(View view) {
                 if (selectionListener == null) {
+                    Log.e("ToanNM", "getMessageLongClickListener -> if ");
                     notifyMessageLongClicked(wrapper.item);
                     notifyMessageViewLongClicked(view, wrapper.item);
                     return true;
                 } else {
+                    Log.e("ToanNM", "getMessageLongClickListener -> elseeeee ");
+
                     isSelectionModeEnabled = true;
                     view.performClick();
                     return true;
@@ -688,6 +697,10 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
 
     void setStyle(MessagesListStyle style) {
         this.messagesListStyle = style;
+    }
+
+    public void addDateHeader(int position, Date date){
+        items.add(position, new Wrapper(date));
     }
 
     /*

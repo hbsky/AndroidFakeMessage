@@ -1,8 +1,8 @@
 package com.stfalcon.chatkit.sample.common.data.fixtures;
 
+import com.stfalcon.chatkit.commons.models.Message;
+import com.stfalcon.chatkit.commons.models.User;
 import com.stfalcon.chatkit.sample.common.data.model.Dialog;
-import com.stfalcon.chatkit.sample.common.data.model.Message;
-import com.stfalcon.chatkit.sample.common.data.model.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;

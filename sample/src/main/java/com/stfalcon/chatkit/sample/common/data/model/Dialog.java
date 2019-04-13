@@ -1,6 +1,8 @@
 package com.stfalcon.chatkit.sample.common.data.model;
 
 import com.stfalcon.chatkit.commons.models.IDialog;
+import com.stfalcon.chatkit.commons.models.Message;
+import com.stfalcon.chatkit.commons.models.User;
 
 import java.util.ArrayList;
 

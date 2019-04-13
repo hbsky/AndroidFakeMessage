@@ -41,13 +41,12 @@ import org.xdty.preference.colorpicker.ColorPickerSwatch;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by ToanNM on 3/4/2019.
  */
-public class ConfigActivity extends AppCompatActivity implements View.OnClickListener{
+public class ConfigActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String FOLDER_IMAGE = Environment.getExternalStorageDirectory() + "/FakeChat/";
 
@@ -86,6 +85,7 @@ public class ConfigActivity extends AppCompatActivity implements View.OnClickLis
         saveSharedPreWhileTextChange(inputChatName, SharedPref.KEY_CHAT_NAME);
 
         chatTime = findViewById(R.id.chat_time);
+        chatTime.setText(new Date(SharedPref.getLong(this, SharedPref.KEY_CHAT_TIME)).toString());
 
         inputNumberOfMember = findViewById(R.id.input_number_of_member);
         inputNumberOfMember.setHint(getResources().getString(R.string.chat_number_of_member));
@@ -340,7 +340,7 @@ public class ConfigActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.chat_time:
                 new SingleDateAndTimePickerDialog.Builder(this)
                         .bottomSheet()
@@ -355,6 +355,12 @@ public class ConfigActivity extends AppCompatActivity implements View.OnClickLis
                             @Override
                             public void onDateSelected(Date date) {
                                 chatTime.setText(date.toString());
+                                SharedPref.saveLong(ConfigActivity.this, SharedPref.KEY_CHAT_TIME,
+                                        date.getTime());
+
+                                SharedPref.saveLong(ConfigActivity.this, SharedPref.KEY_DEFAULT_CHAT_TIME,
+                                        date.getTime());
+
                             }
                         })
                         .display();
