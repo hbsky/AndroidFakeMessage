@@ -1,8 +1,6 @@
 package com.stfalcon.chatkit.sample.features.demo.def;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,8 +17,7 @@ import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import com.stfalcon.chatkit.sample.R;
 import com.stfalcon.chatkit.sample.common.data.fixtures.MessagesFixtures;
 import com.stfalcon.chatkit.sample.features.demo.DemoMessagesActivity;
-import com.stfalcon.chatkit.sample.features.main.ConfigActivity;
-import com.stfalcon.chatkit.sample.utils.SharedPref;
+import com.stfalcon.chatkit.utils.SharedPref;
 
 import java.util.Date;
 
@@ -82,7 +79,7 @@ public class DefaultMessagesActivity extends DemoMessagesActivity
 
     private void initAdapter() {
         final String senderId = super.senderId;
-        super.messagesAdapter = new MessagesListAdapter<>(super.senderId, super.imageLoader);
+        super.messagesAdapter = new MessagesListAdapter<>(this, super.senderId, super.imageLoader);
         super.messagesAdapter.enableSelectionMode(this);
         super.messagesAdapter.setLoadMoreListener(this);
 //        super.messagesAdapter.registerViewClickListener(R.id.mainLayout,

@@ -1,4 +1,4 @@
-package com.stfalcon.chatkit.sample.utils;
+package com.stfalcon.chatkit.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

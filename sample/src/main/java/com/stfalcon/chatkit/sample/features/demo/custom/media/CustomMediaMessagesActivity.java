@@ -92,7 +92,7 @@ public class CustomMediaMessagesActivity extends DemoMessagesActivity
                         this);
 
 
-        super.messagesAdapter = new MessagesListAdapter<>(super.senderId, holders, super.imageLoader);
+        super.messagesAdapter = new MessagesListAdapter<>(this, super.senderId, holders, super.imageLoader);
         super.messagesAdapter.enableSelectionMode(this);
         super.messagesAdapter.setLoadMoreListener(this);
         this.messagesList.setAdapter(super.messagesAdapter);

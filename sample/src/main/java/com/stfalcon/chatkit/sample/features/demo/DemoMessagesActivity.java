@@ -1,6 +1,5 @@
 package com.stfalcon.chatkit.sample.features.demo;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,14 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.models.Message;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import com.stfalcon.chatkit.sample.R;
 import com.stfalcon.chatkit.sample.utils.AppUtils;
-import com.stfalcon.chatkit.sample.utils.SharedPref;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

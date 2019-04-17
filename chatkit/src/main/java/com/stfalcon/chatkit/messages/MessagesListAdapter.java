@@ -70,6 +70,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     private MessagesListStyle messagesListStyle;
     private DateFormatter.Formatter dateHeadersFormatter;
     private SparseArray<OnMessageViewClickListener> viewClickListenersArray = new SparseArray<>();
+    private Context context;
 
     /**
      * For default list item layout and view holder.
@@ -77,8 +78,8 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
      * @param senderId    identifier of sender.
      * @param imageLoader image loading method.
      */
-    public MessagesListAdapter(String senderId, ImageLoader imageLoader) {
-        this(senderId, new MessageHolders(), imageLoader);
+    public MessagesListAdapter(Context context,String senderId, ImageLoader imageLoader) {
+        this(context, senderId, new MessageHolders(), imageLoader);
     }
 
     /**
@@ -88,10 +89,10 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
      * @param holders     custom layouts and view holders. See {@link MessageHolders} documentation for details
      * @param imageLoader image loading method.
      */
-    public MessagesListAdapter(String senderId, MessageHolders holders,
+    public MessagesListAdapter(Context context, String senderId, MessageHolders holders,
                                ImageLoader imageLoader) {
         Log.e("Debug", "senderId -> " + senderId);
-
+        this.context = context;
         this.senderId = senderId;
         this.holders = holders;
         this.imageLoader = imageLoader;
@@ -112,7 +113,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
                 getMessageLongClickListener(wrapper),
                 customOnMessageLongClickListener,
                 dateHeadersFormatter,
-                viewClickListenersArray);
+                viewClickListenersArray, context, senderId);
     }
 
     public CustomOnMessageLongClickListener customOnMessageLongClickListener;

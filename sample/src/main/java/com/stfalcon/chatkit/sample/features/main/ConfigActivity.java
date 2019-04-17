@@ -27,7 +27,7 @@ import com.nvp.easypermissions.AbstractPermissionListener;
 import com.nvp.easypermissions.NvpPermission;
 import com.stfalcon.chatkit.sample.R;
 import com.stfalcon.chatkit.sample.features.demo.def.DefaultMessagesActivity;
-import com.stfalcon.chatkit.sample.utils.SharedPref;
+import com.stfalcon.chatkit.utils.SharedPref;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;

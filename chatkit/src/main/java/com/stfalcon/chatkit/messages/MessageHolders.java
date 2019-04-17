@@ -1,10 +1,13 @@
 package com.stfalcon.chatkit.messages;
 
+import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.stfalcon.chatkit.R;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.ViewHolder;
@@ -22,11 +26,16 @@ import com.stfalcon.chatkit.commons.models.Message;
 import com.stfalcon.chatkit.commons.models.MessageContentType;
 import com.stfalcon.chatkit.utils.DateFormatter;
 import com.stfalcon.chatkit.utils.RoundedImageView;
+import com.stfalcon.chatkit.utils.SharedPref;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /*
  * Created by troy379 on 31.03.17.
@@ -570,7 +579,9 @@ public class MessageHolders {
                         final View.OnLongClickListener onMessageLongClickListener,
                         final MessagesListAdapter.CustomOnMessageLongClickListener customOnMessageLongClickListener,
                         final DateFormatter.Formatter dateHeadersFormatter,
-                        final SparseArray<MessagesListAdapter.OnMessageViewClickListener> clickListenersArray) {
+                        final SparseArray<MessagesListAdapter.OnMessageViewClickListener> clickListenersArray,
+                        final Context context,
+                        final String senderId) {
 
         if (item instanceof IMessage) {
             ((MessageHolders.BaseMessageViewHolder) holder).isSelected = isSelected;
@@ -584,6 +595,23 @@ public class MessageHolders {
                 }
             });
             holder.itemView.setOnClickListener(onMessageClickListener);
+
+            if (holder instanceof DefaultIncomingTextMessageViewHolder) {
+                final IncomingTextMessageViewHolder oHolder = (IncomingTextMessageViewHolder) holder;
+
+                IMessage message = (IMessage) item;
+                if (!message.getUser().getId().contentEquals(senderId)) {
+                    oHolder.roundedImageView.setVisibility(View.VISIBLE);
+                    String image = SharedPref.getString(context, SharedPref.KEY_AVATAR_IMAGE + "_1");
+                    Glide.with(context)
+                            .load(!image.equals("") ? image : R.drawable.ic_user)
+                            .apply(bitmapTransform(
+                                    new RoundedCornersTransformation(128, 0, RoundedCornersTransformation.CornerType.ALL)
+                            ))
+                            .into(oHolder.roundedImageView);
+                    Log.e("ToanNM", "holder instanceof OutcomingTextMessageViewHolder");
+                }
+            }
 
             for (int i = 0; i < clickListenersArray.size(); i++) {
                 final int key = clickListenersArray.keyAt(i);
@@ -756,6 +784,7 @@ public class MessageHolders {
 
         protected ViewGroup bubble;
         protected TextView text;
+        protected ImageView roundedImageView;
 
         @Deprecated
         public IncomingTextMessageViewHolder(View itemView) {
@@ -804,6 +833,7 @@ public class MessageHolders {
         private void init(View itemView) {
             bubble = (ViewGroup) itemView.findViewById(R.id.bubble);
             text = (TextView) itemView.findViewById(R.id.messageText);
+            roundedImageView = itemView.findViewById(R.id.userAvatar);
         }
     }
 
@@ -896,6 +926,7 @@ public class MessageHolders {
             if (imageOverlay != null) {
                 imageOverlay.setSelected(isSelected());
             }
+
         }
 
         @Override

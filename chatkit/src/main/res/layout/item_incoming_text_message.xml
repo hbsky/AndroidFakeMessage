@@ -1,50 +1,65 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:id="@+id/mainLayout"
-    android:layout_marginTop="8dp">
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
 
-    <com.stfalcon.chatkit.utils.ShapeImageView
-        android:id="@id/messageUserAvatar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"/>
+    <ImageView
+        android:id="@id/userAvatar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_send"
+        android:layout_marginLeft="8dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="6dp"
+        android:layout_marginEnd="8dp"/>
 
-    <com.google.android.flexbox.FlexboxLayout
-        android:id="@id/bubble"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/message_incoming_bubble_margin_right"
-        android:layout_marginRight="@dimen/message_incoming_bubble_margin_right"
-        android:layout_toEndOf="@id/messageUserAvatar"
-        android:layout_toRightOf="@id/messageUserAvatar"
-        android:orientation="vertical"
-        app:alignContent="stretch"
-        app:alignItems="stretch"
-        app:flexWrap="wrap"
-        app:justifyContent="flex_end">
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="16dp"
+        android:id="@+id/mainLayout"
+        android:layout_marginTop="8dp">
 
-        <TextView
-            android:id="@id/messageText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@id/messageUserAvatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_add_attachment"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"/>
 
-        <TextView
-            android:id="@id/messageTime"
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@id/bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/messageText"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_alignSelf="center"/>
+            android:layout_marginEnd="@dimen/message_incoming_bubble_margin_right"
+            android:layout_marginRight="@dimen/message_incoming_bubble_margin_right"
+            android:layout_toEndOf="@id/messageUserAvatar"
+            android:layout_toRightOf="@id/messageUserAvatar"
+            android:orientation="vertical"
+            app:alignContent="stretch"
+            app:alignItems="stretch"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_end">
 
-    </com.google.android.flexbox.FlexboxLayout>
+            <TextView
+                android:id="@id/messageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-</RelativeLayout>
+            <TextView
+                android:id="@id/messageTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/messageText"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_alignSelf="center"/>
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </RelativeLayout></LinearLayout>
