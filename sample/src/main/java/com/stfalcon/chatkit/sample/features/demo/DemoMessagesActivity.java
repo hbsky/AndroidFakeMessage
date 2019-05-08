@@ -1,20 +1,31 @@
 package com.stfalcon.chatkit.sample.features.demo;
 
+import android.Manifest;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.nvp.easypermissions.AbstractPermissionListener;
+import com.nvp.easypermissions.NvpPermission;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.models.Message;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import com.stfalcon.chatkit.sample.R;
 import com.stfalcon.chatkit.sample.utils.AppUtils;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.enums.EPickType;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -26,6 +37,8 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
         implements MessagesListAdapter.SelectionListener,
         MessagesListAdapter.OnLoadMoreListener {
 
+    public static final String FOLDER_IMAGE = Environment.getExternalStorageDirectory() + "/FakeChat/";
+
     private static final int TOTAL_MESSAGES_COUNT = 100;
 
     protected final String senderId = "0";
@@ -36,7 +49,8 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
     private int selectionCount;
     private Date lastLoadedDate;
 
-    public void showDateTimePicker(){}
+    public void showDateTimePicker() {
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -143,5 +157,45 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    public PickSetup getPickerImage() {
+        return new PickSetup()
+                .setTitle(getResources().getString(R.string.title_picker_image))
+                .setTitleColor(Color.BLACK)
+                .setBackgroundColor(Color.WHITE)
+                .setProgressText(getResources().getString(R.string.title_picker_image_loading))
+                .setProgressTextColor(ContextCompat.getColor(DemoMessagesActivity.this, R.color.colorAccent))
+                .setCancelText(getResources().getString(R.string.title_picker_image_cancel))
+                .setCancelTextColor(Color.parseColor("#9d9d9d"))
+                .setButtonTextColor(ContextCompat.getColor(DemoMessagesActivity.this, R.color.colorAccent))
+//                .setDimAmount(50)
+                .setFlip(true)
+//                .setMaxSize(500)
+                .setPickTypes(EPickType.GALLERY, EPickType.CAMERA)
+                .setCameraButtonText(getResources().getString(R.string.title_picker_image_camera))
+                .setGalleryButtonText(getResources().getString(R.string.title_picker_image_gallery))
+                .setIconGravity(Gravity.LEFT)
+                .setButtonOrientation(LinearLayout.HORIZONTAL)
+                .setSystemDialog(false)
+                .setVideo(true);
+//                .setGalleryIcon(yourIcon)
+//                .setCameraIcon(yourIcon);
+    }
+
+    public void requestPermission(final AbstractPermissionListener permissionListener) {
+        NvpPermission.with(this)
+                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .setPermissionListener(permissionListener)
+                .check();
+    }
+
+    public boolean hasImageFolder() {
+        File file = new File(FOLDER_IMAGE);
+        if (!file.exists())
+            return new File(FOLDER_IMAGE).mkdirs();
+        else return true;
+
     }
 }

@@ -19,19 +19,12 @@ package com.stfalcon.chatkit.messages;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.SparseArray;
-import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.stfalcon.chatkit.R;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.ViewHolder;
 import com.stfalcon.chatkit.commons.models.IMessage;
@@ -78,7 +71,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
      * @param senderId    identifier of sender.
      * @param imageLoader image loading method.
      */
-    public MessagesListAdapter(Context context,String senderId, ImageLoader imageLoader) {
+    public MessagesListAdapter(Context context, String senderId, ImageLoader imageLoader) {
         this(context, senderId, new MessageHolders(), imageLoader);
     }
 
@@ -117,7 +110,8 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
     }
 
     public CustomOnMessageLongClickListener customOnMessageLongClickListener;
-    public interface CustomOnMessageLongClickListener{
+
+    public interface CustomOnMessageLongClickListener {
         void onMessageLongClickListener(Message message);
     }
 
@@ -700,7 +694,7 @@ public class MessagesListAdapter<MESSAGE extends IMessage>
         this.messagesListStyle = style;
     }
 
-    public void addDateHeader(int position, Date date){
+    public void addDateHeader(int position, Date date) {
         items.add(position, new Wrapper(date));
     }
 

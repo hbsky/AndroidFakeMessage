@@ -50,4 +50,7 @@ public interface IMessage {
      * @return the message creation date
      */
     Date getCreatedAt();
+
+    String getImageFilePath();
+
 }

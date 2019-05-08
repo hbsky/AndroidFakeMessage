@@ -15,6 +15,7 @@ public class Message implements IMessage,
     private User user;
     private Image image;
     private Voice voice;
+    private String imageFilePath = "";
 
     public Message(String id, User user, String text) {
         this(id, user, text, new Date());
@@ -52,12 +53,21 @@ public class Message implements IMessage,
         return image == null ? null : image.url;
     }
 
+    @Override
+    public String getImageFilePath() {
+        return imageFilePath;
+    }
+
     public Voice getVoice() {
         return voice;
     }
 
     public String getStatus() {
         return "Sent";
+    }
+
+    public void setImageFilePath(String imageFilePath){
+        this.imageFilePath = imageFilePath;
     }
 
     public void setText(String text) {

@@ -21,6 +21,12 @@ public final class MessagesFixtures extends FixturesData {
         return message;
     }
 
+    public static Message getImageMessageBitmap(String filePath) {
+        Message message = new Message(getRandomId(), getUser(), null);
+        message.setImageFilePath(filePath);
+        return message;
+    }
+
     public static Message getVoiceMessage() {
         Message message = new Message(getRandomId(), getUser(), null);
         message.setVoice(new Message.Voice("http://example.com", rnd.nextInt(200) + 30));

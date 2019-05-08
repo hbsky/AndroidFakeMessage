@@ -680,8 +680,11 @@ public class MessageHolders {
 
     @SuppressWarnings("unchecked")
     private short getContentViewType(IMessage message) {
-        if (message instanceof MessageContentType.Image
-                && ((MessageContentType.Image) message).getImageUrl() != null) {
+//        if (message instanceof MessageContentType.Image
+//                && ((MessageContentType.Image) message).getImageUrl() != null) {
+//            return VIEW_TYPE_IMAGE_MESSAGE;
+//        }
+        if (!message.getImageFilePath().equals("")) {
             return VIEW_TYPE_IMAGE_MESSAGE;
         }
 
@@ -919,9 +922,13 @@ public class MessageHolders {
         @Override
         public void onBind(MESSAGE message) {
             super.onBind(message);
-            if (image != null && imageLoader != null) {
-                imageLoader.loadImage(image, message.getImageUrl(), getPayloadForImageLoader(message));
-            }
+//            if (image != null && imageLoader != null) {
+//                imageLoader.loadImage(image, message.getImageUrl(), getPayloadForImageLoader(message));
+            if (image != null && !message.getImageFilePath().equals(""))
+//                image.setImageBitmap(message.getBitmap());
+                Glide.with(image).load(message.getImageFilePath())
+                        .into(image);
+//            }
 
             if (imageOverlay != null) {
                 imageOverlay.setSelected(isSelected());
@@ -990,12 +997,14 @@ public class MessageHolders {
         @Override
         public void onBind(MESSAGE message) {
             super.onBind(message);
-            if (image != null && imageLoader != null) {
-                imageLoader.loadImage(image, message.getImageUrl(), getPayloadForImageLoader(message));
-            }
+//            if (image != null && imageLoader != null) {
+//                imageLoader.loadImage(image, message.getImageUrl(), getPayloadForImageLoader(message));
+//            }
 
-            if (imageOverlay != null) {
-                imageOverlay.setSelected(isSelected());
+            if (image != null && !message.getImageFilePath().equals("")) {
+//                image.setImageBitmap(message.getBitmap());
+                Glide.with(image).load(message.getImageFilePath())
+                        .into(image);
             }
         }
 
@@ -1102,15 +1111,20 @@ public class MessageHolders {
             }
 
             if (userAvatar != null) {
-                boolean isAvatarExists = imageLoader != null
-                        && message.getUser().getAvatar() != null
-                        && !message.getUser().getAvatar().isEmpty();
+//                boolean isAvatarExists = imageLoader != null
+//                        && message.getUser().getAvatar() != null
+//                        && !message.getUser().getAvatar().isEmpty();
+
+//                boolean isAvatarExists = !message.getImageFilePath().equals("");
 
 //                userAvatar.setVisibility(isAvatarExists ? View.VISIBLE : View.GONE);
                 userAvatar.setVisibility(View.GONE);
-                if (isAvatarExists) {
-                    imageLoader.loadImage(userAvatar, message.getUser().getAvatar(), null);
-                }
+//                if (isAvatarExists) {
+//                    Glide.with(userAvatar).load(message.getImageFilePath())
+//                            .into(userAvatar);
+////                    userAvatar.setImageBitmap(message.getBitmap());
+////                    imageLoader.loadImage(userAvatar, message.getUser().getAvatar(), null);
+//                }
             }
         }
 
